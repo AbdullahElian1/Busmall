@@ -1,0 +1,25 @@
+*{
+    box-sizing: border-box;
+}
+
+#sec-one{
+    float:right;
+    width: 80%;
+}
+#sec-one img{
+    width: 20%;
+    height: 200px;
+
+}
+
+#sec-two{
+    float:left;
+    width: 20%;
+
+}
+
+#sec-two button{
+    width: 30%;
+    height: 30px;
+    margin-left: 86px;
+}
