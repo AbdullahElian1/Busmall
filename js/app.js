@@ -13,6 +13,7 @@ let maxAttempts = 25;
 let leftIndex; 
 let centeridex;
 let rightIndex;
+let arrayOfName =[];
 
 function Bus(name,source){
   this.name= name;
@@ -20,6 +21,7 @@ function Bus(name,source){
   this.votes = 0;
   this.seen=0;
   Bus.allImages.push(this);
+  arrayOfName.push(this.name);
 }
 
 
@@ -103,19 +105,19 @@ function handleClicking(event){
          alert("choose of the images please");
        }
        console.log(counts);
-       console.log(event.target.id);
+       
 
     renderThreeImages();
-    console.log(Bus.allImages);
+   
   }else {
-    let sec=document.getElementById("sec-two");
-    sec.appendChild(but);
+    renderList();
+    chart1();
     container.removeEventListener('click', handleClicking);
     
   }
 }
 
-let but= document.createElement('button');
+/*let but= document.createElement('button');
     but.setAttribute("id","A");
     but.textContent= "press me";
 
@@ -125,23 +127,59 @@ let but= document.createElement('button');
 
    function handlebuuton(event){
     console.log( event.target.id );
-    renderList();
+    
     but.removeEventListener('click',handlebuuton);
-  }
+  }*/
 
    
 
 
-
+let arrayOfVote=[];
+let arrayOfSeen=[];
 function renderList(){
     
-  let ul = document.getElementById('un');
   
   for(let i = 0 ; i < Bus.allImages.length;i++){
-    let li = document.createElement('li');
-    ul.appendChild(li);
-    li.textContent = `${Bus.allImages[i].name} hade votes ${Bus.allImages[i].votes}  and was seen ${Bus.allImages[i].seen} times `;
+
+    arrayOfVote.push(Bus.allImages[i].votes);
+    arrayOfSeen.push(Bus.allImages[i].seen);
+   
   }
 }
 
 
+
+
+let ctx = document.getElementById('myChart');
+
+function chart1(){
+let myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: arrayOfName,
+        datasets: [{
+            label: '# of Votes',
+            data: arrayOfVote,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                
+            ],
+            
+            borderWidth: 1
+        },{
+          label: '# of showen',
+            data: arrayOfSeen,
+            backgroundColor: [
+             " rgb(47,79,79)"
+
+                
+            ],
+            
+            borderWidth: 1
+
+        }]
+    },
+   
+});
+
+}
