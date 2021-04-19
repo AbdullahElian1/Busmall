@@ -4,6 +4,8 @@ let leftImageElement = document.getElementById('left-image');
 let rightImageElement = document.getElementById('right-image');
 let centerImageElement = document.getElementById('center-image')
 
+let container =document.getElementById('sec-one');
+
 
 
 let counts = 0;
@@ -22,6 +24,7 @@ function Bus(name,source){
 
 
 Bus.allImages =[];
+console.log(Bus.allImages);
 
 new Bus('bag','../images/bag.jpg');
 new Bus('banana','../images/banana.jpg');
@@ -79,9 +82,9 @@ function renderThreeImages(){
 renderThreeImages();
 
 
-leftImageElement.addEventListener('click', handleClicking);
-rightImageElement.addEventListener('click',handleClicking);
-centerImageElement.addEventListener('click',handleClicking);
+
+
+container.addEventListener('click',handleClicking);
 
 function handleClicking(event){
   
@@ -102,9 +105,8 @@ function handleClicking(event){
   }else {
     let sec=document.getElementById("sec-two");
     sec.appendChild(but);
-    leftImageElement.removeEventListener('click', handleClicking);
-    rightImageElement.removeEventListener('click',handleClicking);
-    centerImageElement.removeEventListener('click',handleClicking);
+    container.removeEventListener('click', handleClicking);
+    
   }
 }
 
