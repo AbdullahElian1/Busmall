@@ -26,7 +26,7 @@ function Bus(name,source){
 
 
 Bus.allImages =[];
-console.log(Bus.allImages);
+//console.log(Bus.allImages);
 
 new Bus('bag','../images/bag.jpg');
 new Bus('banana','../images/banana.jpg');
@@ -51,33 +51,79 @@ new Bus('wine-glass','../images/wine-glass.jpg');
 
 
 
-console.log(Bus.allImages);
+//console.log(Bus.allImages);
 
 function genrateRandomIndex(){
     return Math.floor(Math.random() * Bus.allImages.length); 
                   
  }
+let arrayOfThreeImage=[];
 
-function renderThreeImages(){
-  leftIndex = genrateRandomIndex(); 
+function firstRound(){
+leftIndex = genrateRandomIndex(); 
   centeridex= genrateRandomIndex(); 
   rightIndex = genrateRandomIndex(); 
   
-  while((leftIndex === centeridex || leftIndex ===rightIndex) || (rightIndex===centeridex ||rightIndex===leftIndex)){
+
+  while( leftIndex === rightIndex || leftIndex === centeridex || centeridex === rightIndex){
+
     leftIndex = genrateRandomIndex();
     centeridex=genrateRandomIndex();
     
   }
-   /*console.log(leftIndex); 
-   console.log(rightIndex);   
-   console.log(centeridex);  */       
-   
+  
+
+}
+  
+firstRound();
+
+
+function renderThreeImages(){
+  
+  console.log(leftIndex, centeridex ,rightIndex);
+  
   leftImageElement.src =  Bus.allImages[leftIndex].source;
   Bus.allImages[leftIndex].seen++;
   centerImageElement.src=  Bus.allImages[centeridex].source;
   Bus.allImages[centeridex].seen++;
   rightImageElement.src = Bus.allImages[rightIndex].source;
   Bus.allImages[rightIndex].seen++;
+
+
+  leftIndex = genrateRandomIndex(); 
+  centeridex= genrateRandomIndex(); 
+  rightIndex = genrateRandomIndex();
+  
+  
+
+  while(arrayOfThreeImage.includes(leftIndex) || arrayOfThreeImage.includes(centeridex)  || arrayOfThreeImage.includes(rightIndex) || leftIndex === rightIndex || leftIndex === centeridex || centeridex === rightIndex){
+
+    leftIndex = genrateRandomIndex();
+    centeridex=genrateRandomIndex();
+    rightIndex=genrateRandomIndex();
+    
+  }
+
+  arrayOfThreeImage[0]= leftIndex;
+  arrayOfThreeImage[1]= centeridex;
+  arrayOfThreeImage[2]=  rightIndex;
+
+  
+  
+  
+
+  
+  
+//console.log(arrayOfThreeImage);
+
+
+
+
+
+   
+  
+
+  
 
 }
 
@@ -104,7 +150,7 @@ function handleClicking(event){
          counts--;
          alert("choose of the images please");
        }
-       console.log(counts);
+       console.log("counts " + counts);
        
 
     renderThreeImages();
