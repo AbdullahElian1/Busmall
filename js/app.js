@@ -96,9 +96,14 @@ function handleClicking(event){
        }else if(event.target.id ==='center-image'){
             Bus.allImages[centeridex].votes++;
        }else if(event.target.id==='right-image'){
+        Bus.allImages[rightIndex].votes++;
 
+       }else{
+         counts--;
+         alert("choose of the images please");
        }
        console.log(counts);
+       console.log(event.target.id);
 
     renderThreeImages();
     console.log(Bus.allImages);
