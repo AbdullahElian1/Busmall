@@ -13,6 +13,7 @@ let maxAttempts = 25;
 let leftIndex; 
 let centeridex;
 let rightIndex;
+let arrayOfName =[];
 
 function Bus(name,source){
   this.name= name;
@@ -20,11 +21,12 @@ function Bus(name,source){
   this.votes = 0;
   this.seen=0;
   Bus.allImages.push(this);
+  arrayOfName.push(this.name);
 }
 
 
 Bus.allImages =[];
-console.log(Bus.allImages);
+//console.log(Bus.allImages);
 
 new Bus('bag','../images/bag.jpg');
 new Bus('banana','../images/banana.jpg');
@@ -49,33 +51,79 @@ new Bus('wine-glass','../images/wine-glass.jpg');
 
 
 
-console.log(Bus.allImages);
+//console.log(Bus.allImages);
 
 function genrateRandomIndex(){
     return Math.floor(Math.random() * Bus.allImages.length); 
                   
  }
+let arrayOfThreeImage=[];
 
-function renderThreeImages(){
-  leftIndex = genrateRandomIndex(); 
+function firstRound(){
+leftIndex = genrateRandomIndex(); 
   centeridex= genrateRandomIndex(); 
   rightIndex = genrateRandomIndex(); 
   
-  while((leftIndex === centeridex || leftIndex ===rightIndex) || (rightIndex===centeridex ||rightIndex===leftIndex)){
+
+  while( leftIndex === rightIndex || leftIndex === centeridex || centeridex === rightIndex){
+
     leftIndex = genrateRandomIndex();
     centeridex=genrateRandomIndex();
     
   }
-   /*console.log(leftIndex); 
-   console.log(rightIndex);   
-   console.log(centeridex);  */       
-   
+  
+
+}
+  
+firstRound();
+
+
+function renderThreeImages(){
+  
+  console.log(leftIndex, centeridex ,rightIndex);
+  
   leftImageElement.src =  Bus.allImages[leftIndex].source;
   Bus.allImages[leftIndex].seen++;
   centerImageElement.src=  Bus.allImages[centeridex].source;
   Bus.allImages[centeridex].seen++;
   rightImageElement.src = Bus.allImages[rightIndex].source;
   Bus.allImages[rightIndex].seen++;
+
+
+  leftIndex = genrateRandomIndex(); 
+  centeridex= genrateRandomIndex(); 
+  rightIndex = genrateRandomIndex();
+  
+  
+
+  while(arrayOfThreeImage.includes(leftIndex) || arrayOfThreeImage.includes(centeridex)  || arrayOfThreeImage.includes(rightIndex) || leftIndex === rightIndex || leftIndex === centeridex || centeridex === rightIndex){
+
+    leftIndex = genrateRandomIndex();
+    centeridex=genrateRandomIndex();
+    rightIndex=genrateRandomIndex();
+    
+  }
+
+  arrayOfThreeImage[0]= leftIndex;
+  arrayOfThreeImage[1]= centeridex;
+  arrayOfThreeImage[2]=  rightIndex;
+
+  
+  
+  
+
+  
+  
+//console.log(arrayOfThreeImage);
+
+
+
+
+
+   
+  
+
+  
 
 }
 
@@ -96,21 +144,26 @@ function handleClicking(event){
        }else if(event.target.id ==='center-image'){
             Bus.allImages[centeridex].votes++;
        }else if(event.target.id==='right-image'){
+        Bus.allImages[rightIndex].votes++;
 
+       }else{
+         counts--;
+         alert("choose of the images please");
        }
-       console.log(counts);
+       console.log("counts " + counts);
+       
 
     renderThreeImages();
-    console.log(Bus.allImages);
+   
   }else {
-    let sec=document.getElementById("sec-two");
-    sec.appendChild(but);
+    renderList();
+    chart1();
     container.removeEventListener('click', handleClicking);
     
   }
 }
 
-let but= document.createElement('button');
+/*let but= document.createElement('button');
     but.setAttribute("id","A");
     but.textContent= "press me";
 
@@ -120,23 +173,59 @@ let but= document.createElement('button');
 
    function handlebuuton(event){
     console.log( event.target.id );
-    renderList();
+    
     but.removeEventListener('click',handlebuuton);
-  }
+  }*/
 
    
 
 
-
+let arrayOfVote=[];
+let arrayOfSeen=[];
 function renderList(){
     
-  let ul = document.getElementById('un');
   
   for(let i = 0 ; i < Bus.allImages.length;i++){
-    let li = document.createElement('li');
-    ul.appendChild(li);
-    li.textContent = `${Bus.allImages[i].name} hade votes ${Bus.allImages[i].votes}  and was seen ${Bus.allImages[i].seen} times `;
+
+    arrayOfVote.push(Bus.allImages[i].votes);
+    arrayOfSeen.push(Bus.allImages[i].seen);
+   
   }
 }
 
 
+
+
+let ctx = document.getElementById('myChart');
+
+function chart1(){
+let myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: arrayOfName,
+        datasets: [{
+            label: '# of Votes',
+            data: arrayOfVote,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                
+            ],
+            
+            borderWidth: 1
+        },{
+          label: '# of showen',
+            data: arrayOfSeen,
+            backgroundColor: [
+             " rgb(47,79,79)"
+
+                
+            ],
+            
+            borderWidth: 1
+
+        }]
+    },
+   
+});
+
+}
