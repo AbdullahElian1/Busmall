@@ -53,76 +53,62 @@ new Bus('wine-glass','../images/wine-glass.jpg');
 
 //console.log(Bus.allImages);
 
+function saveToLs(){
+  let arrStr= JSON.stringify(Bus.allImages);
+  localStorage.setItem('object',arrStr);
+}
+
+
+function getOrderFromLs(){
+ 
+  let data= localStorage.getItem('object');
+  let order= JSON.parse(data);
+  if(order !== null){
+  Bus.allImages=order;
+  }
+}
+
+
+
 function genrateRandomIndex(){
     return Math.floor(Math.random() * Bus.allImages.length); 
                   
  }
+
+
+
+
 let arrayOfThreeImage=[];
-
-function firstRound(){
-leftIndex = genrateRandomIndex(); 
-  centeridex= genrateRandomIndex(); 
-  rightIndex = genrateRandomIndex(); 
-  
-
-  while( leftIndex === rightIndex || leftIndex === centeridex || centeridex === rightIndex){
-
-    leftIndex = genrateRandomIndex();
-    centeridex=genrateRandomIndex();
-    
-  }
-  
-
-}
-  
-firstRound();
 
 
 function renderThreeImages(){
-  
-  console.log(leftIndex, centeridex ,rightIndex);
-  
-  leftImageElement.src =  Bus.allImages[leftIndex].source;
-  Bus.allImages[leftIndex].seen++;
-  centerImageElement.src=  Bus.allImages[centeridex].source;
-  Bus.allImages[centeridex].seen++;
-  rightImageElement.src = Bus.allImages[rightIndex].source;
-  Bus.allImages[rightIndex].seen++;
-
+  //console.log('befor', arrayOfThreeImage);
 
   leftIndex = genrateRandomIndex(); 
   centeridex= genrateRandomIndex(); 
-  rightIndex = genrateRandomIndex();
+  rightIndex = genrateRandomIndex(); 
   
   
 
-  while(arrayOfThreeImage.includes(leftIndex) || arrayOfThreeImage.includes(centeridex)  || arrayOfThreeImage.includes(rightIndex) || leftIndex === rightIndex || leftIndex === centeridex || centeridex === rightIndex){
+  while(leftIndex === rightIndex || leftIndex === centeridex || centeridex === rightIndex ||arrayOfThreeImage.includes(leftIndex) || arrayOfThreeImage.includes(centeridex)  || arrayOfThreeImage.includes(rightIndex) || leftIndex === rightIndex || leftIndex === centeridex || centeridex === rightIndex){
 
     leftIndex = genrateRandomIndex();
     centeridex=genrateRandomIndex();
     rightIndex=genrateRandomIndex();
     
   }
-
-  arrayOfThreeImage[0]= leftIndex;
-  arrayOfThreeImage[1]= centeridex;
-  arrayOfThreeImage[2]=  rightIndex;
-
   
-  
-  
+  arrayOfThreeImage= [leftIndex, centeridex,rightIndex];
 
-  
-  
-//console.log(arrayOfThreeImage);
+  //console.log('After', arrayOfThreeImage);
 
 
-
-
-
-   
-  
-
+  leftImageElement.src =  Bus.allImages[leftIndex].source;
+  Bus.allImages[leftIndex].seen++;
+  centerImageElement.src=  Bus.allImages[centeridex].source;
+  Bus.allImages[centeridex].seen++;
+  rightImageElement.src = Bus.allImages[rightIndex].source;
+  Bus.allImages[rightIndex].seen++;
   
 
 }
@@ -152,16 +138,21 @@ function handleClicking(event){
        }
        console.log("counts " + counts);
        
-
+       
     renderThreeImages();
    
   }else {
+   
+    saveToLs();
+    
     renderList();
-    chart1();
+   chart1();
+
     container.removeEventListener('click', handleClicking);
     
   }
 }
+
 
 /*let but= document.createElement('button');
     but.setAttribute("id","A");
@@ -229,3 +220,8 @@ let myChart = new Chart(ctx, {
 });
 
 }
+
+getOrderFromLs();
+
+
+
